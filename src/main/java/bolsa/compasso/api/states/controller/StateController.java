@@ -1,6 +1,7 @@
 package bolsa.compasso.api.states.controller;
 
 import bolsa.compasso.api.states.controller.dto.StateDTO;
+import bolsa.compasso.api.states.controller.filter.StateFilter;
 import bolsa.compasso.api.states.controller.form.StateForm;
 import bolsa.compasso.api.states.model.State;
 import bolsa.compasso.api.states.repository.StateRepository;
@@ -23,8 +24,12 @@ public class StateController {
     StateRepository stateRepository;
 
     @GetMapping
-    public ResponseEntity<List<StateDTO>> list(){
-        List<State> states = stateRepository.findAll();
+    public ResponseEntity<List<StateDTO>> list(
+            @RequestParam(name="orderby", required = false) String orderBy,
+            @RequestParam(name="region", required = false) String region
+    ){
+        StateFilter filter = new StateFilter(orderBy, region, stateRepository);
+        List<State> states = filter.getResults();
 
         if(states.size() == 0) return ResponseEntity.notFound().build();
 

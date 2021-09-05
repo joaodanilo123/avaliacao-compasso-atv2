@@ -34,7 +34,7 @@ public class StateForm {
     }
 
     public void setRegion(String region) {
-        this.region = region;
+        this.region = region.toUpperCase();
     }
 
     public long getPopulation() {
