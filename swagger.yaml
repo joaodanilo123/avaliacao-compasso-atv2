@@ -1,0 +1,182 @@
+openapi: 3.0.1
+info:
+  title: API de Estados
+  description: Api para controle de Unidades Federativas
+  version: "0.1"
+  contact:
+    name: João Danilo Zucolotto
+    email: joao@gmail.com
+    url: https://github.io/joaodanilo123
+
+components:
+  schemas:
+    State:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Idenficador unico do estado no banco de dados"
+          example: 1
+        name:
+          type: string
+          example: "Rio de Janeiro"
+          description: Nome do estado
+        region:
+          type: string
+          example: "Sudeste"
+          description: Região em que o estado está inserido
+        capital:
+          type: string
+          example: "Rio de Janeiro"
+          description: cidade capital do estado
+        population:
+          type: number
+          example: 90000.99
+          description: número de habitantes do estado
+        area:
+          type: integer
+          example: 100000
+          description: area em km^2 do estado
+    StateDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Rio de Janeiro"
+          description: Nome do estado
+        region:
+          type: string
+          example: "Sudeste"
+          description: Região em que o estado está inserido
+        capital:
+          type: string
+          example: "Rio de Janeiro"
+          description: cidade capital do estado
+        population:
+          type: number
+          example: 90000.99
+          description: número de habitantes do estado
+        area:
+          type: integer
+          example: 100000
+          description: area em km^2 do estado
+paths:
+  /api/states/{id}:
+    parameters:
+      - name: id
+        schema:
+          type: integer
+        in: path
+        description: ID do estado a ser buscado
+        required: true
+    
+    get:
+      summary: Busca as informações de um unico estado
+      responses:
+        200: 
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/State"
+    put:
+      summary: Atualiza o registro de determinado estado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StateDTO"
+      responses:
+        200: 
+          description: Registro atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/State"
+        400:
+          description: Algum atributo enviado de forma errada
+        404:
+          description: Registro não encontrado
+    delete:
+      summary: Remove o registor de um estado do banco de dados
+      responses:
+        200: 
+          description: Registro removido com sucesso[
+        404:
+          description: Registro não encontrado
+    
+  /api/states:
+    get:
+      summary: Recupera e filtra as informações de todos os estados
+      parameters:
+      - name: region
+        description: "Região dos estados a serem buscados"
+        in: query
+        schema:
+          type: string
+        required: false
+        example: Sudeste
+      - name: order
+        description: "Ordenação dos resultados da busca (area, population)."
+        in: query
+        schema:
+          type: string
+        required: false
+        example: area
+        
+      responses:
+        200: 
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/State"
+        404:
+          description: Nenhum registro encontrado
+    post:
+      summary: "Registra um estado no banco de dados."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StateDTO"
+      responses:
+        201: 
+          description: "Estado cadastrado com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StateDTO"
+        400:
+          description: "Algum atributo foi colocado de forma errada no corpo da requição"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: descrição dos erros
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+          
+          
